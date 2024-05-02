@@ -24,12 +24,19 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Start PostgreSQL
-        uses: postgres:latest
+        uses: docker://postgres:14.1
         env:
           POSTGRES_DB: doc-db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         timeout-minutes: 2
+      # Wait for PostgreSQL to be ready
+      - name: Wait for PostgreSQL
+        run: |
+          sleep 10 
+          while ! pg_isready -h localhost -p 5432 -U postgres -d doc-db; do
+            sleep 1
+          done
       #Run Tests
       - name: Run Tests
         run: | 
