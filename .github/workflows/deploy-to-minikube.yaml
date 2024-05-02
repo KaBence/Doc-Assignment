@@ -40,7 +40,6 @@ jobs:
           sleep 10
       - run: |
           curl -i http://localhost:8080/
-          curl -i http://localhost:3000/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
