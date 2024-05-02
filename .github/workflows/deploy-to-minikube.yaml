@@ -1,10 +1,10 @@
 name: CD - Deploy to Minikube using Github Actions
 on:
-  #Trigger the workflow on push from the master/main branch or on pull request
+  #Trigger the workflow on push from the master/Github-Actions branch or on pull request
   push:
-    branches: [ main ]
+    branches: [ Github-Actions ]
   pull_request:
-    branches: [ main ]
+    branches: [ Github-Actions ]
 jobs:
   # Build job
   job1:
@@ -22,20 +22,21 @@ jobs:
         run: |
           export SHELL=/bin/bash
           eval $(minikube -p minikube docker-env)
-          docker build -f ./Dockerfile -t local/cicd-example .
+          docker build -f ./Dockerfile -t local/devops-demo:v405 .
+          docker build -f ./Dockerfile -t local/doc-react:v405 .
           echo -n "Verifying images: "
           docker images
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f deploy.yaml
-          kubectl wait --for=condition=Ready pod -l app=cicd-example
+          bectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
+          kubectl wait --for=condition=Ready pod -l app=devops-demo:v405
           kubectl get all
       - name: Test service URLs
         run: |
           echo "SERVICE_URL=$(minikube service cicd-example --url)"
-          kubectl port-forward service/cicd-example 8080:8080 &> /dev/null &
+          kubectl port-forward service/devops-demo:v405 8080:8080 &> /dev/null &
           sleep 5
-          kubectl port-forward service/cicd-example 8080:8080 &> /dev/null &
+          kubectl port-forward service/devops-demo:v405 8080:8080 &> /dev/null &
       - run: |
           curl -i http://localhost:8080/
       - name: Cleanup
