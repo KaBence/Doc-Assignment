@@ -3,9 +3,9 @@ name: CI
 on:
   #Manually trigger workflow runs
   workflow_dispatch:
-  #Trigger the workflow on push from the master/main branch
+  #Trigger the workflow on push from the master/Github-Actions branch
   push:
-    branches: [ main ]
+    branches: [ Github-Actions ]
 
 jobs:
   #Test's job
