@@ -39,8 +39,8 @@ jobs:
           sleep 5
           kubectl port-forward service/doc-react 3000:3000 &> /dev/null &
       - run: |
-          curl -i localhost:8080/
-          curl -i localhost:3000/
+          curl -i http://localhost:8080/
+          curl -i http://localhost:3000/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
