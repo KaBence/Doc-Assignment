@@ -36,8 +36,8 @@ jobs:
         run: |
           echo "SERVICE_URL=$(minikube service devops-demo --url)"
           kubectl port-forward service/devops-demo 8080:8080 &> /dev/null &
-          sleep 5
           kubectl port-forward service/doc-react 3000:3000 &> /dev/null &
+          sleep 10
       - run: |
           curl -i http://localhost:8080/
           curl -i http://localhost:3000/
