@@ -23,9 +23,18 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+      - name: Start PostgreSQL
+        uses: docker://postgres:14.1
+        with:
+          POSTGRES_DB: doc-db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        timeout-minutes: 2
       #Run Tests
       - name: Run Tests
-        run: mvn -B test
+        run: | 
+          sleep 10
+          mvn -B test
 # Build jobs
   build:
     # depends on test's job
