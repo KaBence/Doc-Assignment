@@ -29,17 +29,18 @@ jobs:
       - name: Deploy to Minikube
         run: |
           kubectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
-          kubectl wait --for=condition=Ready pod -l app=devops-demo
-          kubectl wait --for=condition=Ready pod -l app=doc-react
+          kubectl wait --for=condition=Ready pod -l app=local/devops-demo
+          kubectl wait --for=condition=Ready pod -l app=local/doc-react
           kubectl get all
       - name: Test service URLs
         run: |
-          echo "SERVICE_URL=$(minikube service cicd-example --url)"
-          kubectl port-forward service/devops-demo:v405 8080:8080 &> /dev/null &
+          echo "SERVICE_URL=$(minikube service devops-demo --url)"
+          kubectl port-forward service/devops-demo 8080:8080 &> /dev/null &
           sleep 5
-          kubectl port-forward service/devops-demo:v405 8080:8080 &> /dev/null &
+          kubectl port-forward service/doc-react 3000:3000 &> /dev/null &
       - run: |
           curl -i http://localhost:8080/
+          curl -i http://localhost:3000/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)
