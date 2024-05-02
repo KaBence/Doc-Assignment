@@ -28,7 +28,7 @@ jobs:
           docker images
       - name: Deploy to Minikube
         run: |
-          bectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
+          kubectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
           kubectl wait --for=condition=Ready pod -l app=devops-demo:v405
           kubectl get all
       - name: Test service URLs
