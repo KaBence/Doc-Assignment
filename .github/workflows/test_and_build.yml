@@ -24,11 +24,11 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Start PostgreSQL
-        uses: docker://postgres:14.1
-        environment:
-          - POSTGRES_DB=doc-db
-          - POSTGRES_USER=postgres
-          - POSTGRES_PASSWORD=postgres
+        uses: postgres:latest
+        env:
+          POSTGRES_DB: doc-db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         timeout-minutes: 2
       #Run Tests
       - name: Run Tests
