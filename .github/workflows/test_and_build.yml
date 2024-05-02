@@ -29,10 +29,7 @@ jobs:
           POSTGRES_DB: doc-db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-        with:
-          options: -d
-        ports:
-          - 5432:5432
+        timeout-minutes: 2
       # Wait for PostgreSQL to be ready
       - name: Wait for PostgreSQL
         run: |
