@@ -26,9 +26,7 @@ jobs:
       - name: Start PostgreSQL
         uses: docker://postgres:14.1
         with:
-          POSTGRES_DB: doc-db
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          args: -e POSTGRES_DB=doc-db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres
         timeout-minutes: 2
       #Run Tests
       - name: Run Tests
