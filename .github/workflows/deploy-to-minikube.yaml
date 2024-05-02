@@ -22,15 +22,15 @@ jobs:
         run: |
           export SHELL=/bin/bash
           eval $(minikube -p minikube docker-env)
-          docker build -f ./Dockerfile -t local/devops-demo:v405 .
-          docker build -f ./webapp/Dockerfile -t local/doc-react:v405 ./webapp
+          docker build -f ./Dockerfile -t local/devops-demo .
+          docker build -f ./webapp/Dockerfile -t local/doc-react ./webapp
           echo -n "Verifying images: "
           docker images
       - name: Deploy to Minikube
         run: |
           kubectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
-          kubectl wait --for=condition=Ready pod -l app=devops-demo:v405
-          kubectl wait --for=condition=Ready pod -l app=doc-react:v405
+          kubectl wait --for=condition=Ready pod -l app=devops-demo
+          kubectl wait --for=condition=Ready pod -l app=doc-react
           kubectl get all
       - name: Test service URLs
         run: |
