@@ -18,7 +18,7 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.32.0 (765fde254)
       labels:
-        io.kompose.network/devops-demo-default: "true"
+        io.kompose.network/doc-assignment-default: "true"
         io.kompose.service: backend
     spec:
       containers:
@@ -31,8 +31,8 @@ spec:
               value: postgres
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: update
-          image: devops-demo:v404
-          name: devops-demo-container
+          image: devops-demo:v405
+          name: java-backend
           ports:
             - containerPort: 8080
               hostPort: 8080

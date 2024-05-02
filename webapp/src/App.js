@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
+import FetchDataComponent from './fetchData';
 
+/*
 function App() {
   return (
     <div className="App">
@@ -21,5 +23,14 @@ function App() {
     </div>
   );
 }
+*/
+
+const App = () => {
+  return (
+    <div>
+      <FetchDataComponent />
+    </div>
+  );
+};
 
 export default App;
