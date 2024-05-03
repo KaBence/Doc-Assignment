@@ -28,7 +28,7 @@ jobs:
           docker images
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f web-deploy.yaml,backend-deploy.yaml
+          kubectl apply -f backend-deploy.yaml,web-deploy.yaml
           kubectl wait --for=condition=Ready pod -l app=devops-demo
           kubectl wait --for=condition=Ready pod -l app=doc-react
           kubectl get all
