@@ -63,6 +63,10 @@ In order for minikube to successfully find the images that needs to be run insid
   </details>
 </blockquote>
 
+**minikube image load &gt;tar file&lt;**
+
+- loads the images into the minikube container, letting it use the images.
+
 ## Deploying services in minikube
 
 **kompose convert**
