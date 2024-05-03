@@ -53,13 +53,13 @@ In order for minikube to successfully find the images that needs to be run insid
 **docker image save -o &lt;name&gt;.tar &lt;image name with the tag&gt;**
 
 - `-o` option is specifying where the tar file should be saved
-- It is possible to save multiple images into one tar file !!!! NOT YET TESTED
+- It is possible to save multiple images into one tar file
 
 <blockquote>
   <details>
     <summary>Examples</summary>
     <p>  docker image save -o doc-assignment.tar doc-react:v405</p>
-    <p>  docker image save -o doc-assignment.tar doc-react:v405 devops-demo:v405</p>
+    <p>  docker image save -o doc-assignment.tar devops-demo:v405 doc-react:v405</p>
   </details>
 </blockquote>
 

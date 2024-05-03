@@ -41,7 +41,9 @@ jobs:
           kubectl port-forward service/devops-demo 8080:8080 &> /dev/null &
           kubectl port-forward service/doc-react 3000:3000 &> /dev/null &
       - run: |
-          curl -i http://localhost:8080/members/Member2/tasks/Task4
+          curl -i http://localhost:8080/
+      - run: |
+          curl -i http://localhost:3000/
       - name: Cleanup
         run: |
           eval $(minikube docker-env -u)

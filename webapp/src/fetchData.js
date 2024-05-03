@@ -11,7 +11,7 @@ const FetchDataComponent = () => {
 
   const fetchData = async () => {
     try {
-    await fetch(`10.110.25.74:8080/members/Member2`)
+    await fetch("http://localhost:8080/members/Member1",{ mode: 'no-cors' })
         .then(response=>response.json())
         .then(setMemberDetails);
       
@@ -24,7 +24,7 @@ const FetchDataComponent = () => {
   
   return (
     <div>
-      <h2>Fetch Member Details</h2>
+      <h2>Fetch Member Details </h2>
       <div>
         <label htmlFor="memberId">Member ID:</label>
         <input
