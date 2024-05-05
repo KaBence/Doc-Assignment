@@ -1,17 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./main.css"
  
 export default function MainPage(){
   return <div className='container'>
-    <FetchPart/>
+    <FetchMemberById/>
     <InsertMemberData/>
+    <FetchMembers/>
   </div>
 };
 
 
-function FetchPart(){
+function FetchMembers(){
+const [members,setMembers]=useState(null);
+
+useEffect(()=>{
+  fetch("http://localhost:8080/members")
+    .then(response=>response.json())
+    .then(setMembers)
+},[])
+
+return <div className='card'>
+  <div>
+    <h2>All Members</h2>
+    {members!==null&&(
+      <table className='memberTable'>
+        <thead>
+          <tr>
+            <th>Member Id</th>
+            <th>Name</th>
+            <th>E-mail</th>
+          </tr>
+        </thead>
+        <tbody>
+          {members.map((element)=>(
+            <tr>
+              <td>{element.id}</td>
+              <td>{element.name}</td>
+              <td>{element.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+    {members===null &&(
+      <div className='placeholder'><div className='loader'></div></div>
+    )}
+  </div>
+</div>
+}
+
+function FetchMemberById(){
   const [memberId, setMemberId] = useState('');
   const [memberDetails, setMemberDetails] = useState(null);
+  const [memberError, setMemberError] = useState(null);
 
   const handleInputChange = (event) => {
     setMemberId(event.target.value);
@@ -20,12 +61,17 @@ function FetchPart(){
   // Function to handle key press
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
-      // Call your method here
-      dummyData();
+      fetchDataFromServer();
     }
   };
 
   const fetchDataFromServer = () => {
+    if(!memberId){
+      setMemberError("Provide an ID");
+      setMemberDetails(null);
+      return;
+    }
+    setMemberError(null);
     fetch(`http://localhost:8080/members/${memberId}`/*,{ mode: 'no-cors' }*/)
         .then(response=>response.json())
         .then(setMemberDetails);
@@ -37,7 +83,7 @@ function FetchPart(){
 
   return <div className='card'>
     <div>
-      <h2 style={{textAlign:'center'}}>Fetch Member Details </h2>
+      <h2 style={{textAlign:'center'}}>Fetch Member by Id </h2>
       <div>
         <label htmlFor="memberId">Member ID:</label>
         <input className='text' type="text" id="memberId" value={memberId} onChange={handleInputChange} onKeyDown={handleKeyPress}/>
@@ -53,7 +99,7 @@ function FetchPart(){
         </div>
       )}
       {memberDetails===null&&(
-        <div style={{height:'165px'}}></div>
+        <div style={{height:'155px'}}><p style={{color:"red"}}>{memberError}</p></div>
       )}
     </div>
   </div>
