@@ -33,6 +33,10 @@ public class TeamService {
         team_members.add(dora);
     }
 
+    public TeamMember saveTeamMember(TeamMember teamMember) {
+        return teamRepository.save(teamMember);
+    }
+
     public TeamMember getTeamMember (String memberId) {
         for (TeamMember m : team_members) {
             if (m.getId().equals(memberId)) {
