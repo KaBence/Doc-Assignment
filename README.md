@@ -63,9 +63,16 @@ In order for minikube to successfully find the images that needs to be run insid
   </details>
 </blockquote>
 
-**minikube image load &gt;tar file&lt;**
+**minikube image load &lt;tar file&gt;**
 
 - loads the images into the minikube container, letting it use the images.
+
+<blockquote>
+  <details>
+    <summary>Examples</summary>
+    <p>  minikube image load doc-assignment.tar</p>
+  </details>
+</blockquote>
 
 ## Deploying services in minikube
 
