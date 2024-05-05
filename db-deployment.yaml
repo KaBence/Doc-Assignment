@@ -20,7 +20,7 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.32.0 (765fde254)
       labels:
-        io.kompose.network/devops-demo-default: "true"
+        io.kompose.network/doc-assignment-default: "true"
         io.kompose.service: db
     spec:
       containers:
@@ -32,7 +32,8 @@ spec:
             - name: POSTGRES_USER
               value: postgres
           image: postgres:14.1-alpine
-          name: doc-pgsql-container
+          imagePullPolicy: Never
+          name: postgres
           ports:
             - containerPort: 5432
               hostPort: 5432

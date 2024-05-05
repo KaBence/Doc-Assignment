@@ -1,9 +1,17 @@
 version: "3.8"
 services:
+  web:
+    image: "doc-react:v405"
+    build: 
+      context: ./webapp
+    container_name: React
+    ports:
+      - "3000:3000"
+
   db:
     image: "postgres:14.1-alpine"
     restart: always
-    container_name: "doc-pgsql-container"
+    container_name: "postgres"
     ports:
       - 5432:5432
     volumes:
@@ -14,10 +22,10 @@ services:
       - POSTGRES_PASSWORD=postgres
       
   backend:
-    image: "devops-demo:v404"
+    image: "devops-demo:v405"
     build:
       context: ./
-    container_name: "devops-demo-container"
+    container_name: "Java_backend"
     ports:
       - 8080:8080
     depends_on:
