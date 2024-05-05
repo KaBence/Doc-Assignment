@@ -37,6 +37,10 @@ public class TeamService {
         return teamRepository.save(teamMember);
     }
 
+    public List<TeamMember> getTeamMembers(){
+        return teamRepository.findAll();
+    }
+
     public TeamMember getTeamMember (String memberId) {
         for (TeamMember m : team_members) {
             if (m.getId().equals(memberId)) {

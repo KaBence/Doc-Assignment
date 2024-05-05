@@ -1,9 +1,12 @@
 package via.doc1.devopsdemo.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 import via.doc1.devopsdemo.model.Task;
 import via.doc1.devopsdemo.model.TeamMember;
 import via.doc1.devopsdemo.service.TeamService;
+
 
 
 @RestController
@@ -30,6 +33,12 @@ public class TeamController {
     @PostMapping("/members")
     public TeamMember saveTeamMember(@RequestBody TeamMember teamMember) {
         return teamService.saveTeamMember(teamMember);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/members")
+    public List<TeamMember> getTeamMembers() {
+        return teamService.getTeamMembers();
     }
 }
 
