@@ -3,36 +3,36 @@ import "./main.css"
  
 export default function MainPage(){
   return <div className='container'>
-    <FetchMemberById/>
-    <InsertMemberData/>
-    <FetchMembers/>
+    <FetchDepartmentById/>
+    <InsertDepartmentData/>
+    <FetchDepartments/>
   </div>
 };
 
 
-function FetchMembers(){
-const [members,setMembers]=useState(null);
+function FetchDepartments(){
+const [departments,setDepartments]=useState(null);
 
 useEffect(()=>{
-  fetch("http://localhost:8080/members")
+  fetch("http://localhost:8080/departments")
     .then(response=>response.json())
-    .then(setMembers)
+    .then(setDepartments)
 },[])
 
 return <div className='card'>
   <div>
-    <h2>All Members</h2>
-    {members!==null&&(
-      <table className='memberTable'>
+    <h2>All Departments</h2>
+    {departments!==null&&(
+      <table className='DepartmentTable'>
         <thead>
           <tr>
-            <th>Member Id</th>
+            <th>Department Id</th>
             <th>Name</th>
             <th>E-mail</th>
           </tr>
         </thead>
         <tbody>
-          {members.map((element)=>(
+          {departments.map((element)=>(
             <tr>
               <td>{element.id}</td>
               <td>{element.name}</td>
@@ -42,20 +42,20 @@ return <div className='card'>
         </tbody>
       </table>
     )}
-    {members===null &&(
+    {departments===null &&(
       <div className='placeholder'><div className='loader'></div></div>
     )}
   </div>
 </div>
 }
 
-function FetchMemberById(){
-  const [memberId, setMemberId] = useState('');
-  const [memberDetails, setMemberDetails] = useState(null);
-  const [memberError, setMemberError] = useState(null);
+function FetchDepartmentById(){
+  const [departmentId, setDepartmentId] = useState('');
+  const [departmentDetails, setDepartmentDetails] = useState(null);
+  const [departmentError, setDepartmentError] = useState(null);
 
   const handleInputChange = (event) => {
-    setMemberId(event.target.value);
+    setDepartmentId(event.target.value);
   };
 
   // Function to handle key press
@@ -66,56 +66,56 @@ function FetchMemberById(){
   };
 
   const fetchDataFromServer = () => {
-    if(!memberId){
-      setMemberError("Provide an ID");
-      setMemberDetails(null);
+    if(!departmentId){
+      setDepartmentError("Provide an ID");
+      setDepartmentDetails(null);
       return;
     }
-    setMemberError(null);
-    fetch(`http://localhost:8080/members/${memberId}`/*,{ mode: 'no-cors' }*/)
+    setDepartmentError(null);
+    fetch(`http://localhost:8080/departments/${departmentId}`/*,{ mode: 'no-cors' }*/)
         .then(response=>response.json())
-        .then(setMemberDetails);
+        .then(setDepartmentDetails);
   };
 
   const dummyData=()=>{
-    setMemberDetails({id:"1",name:"Dummy",email:"Something@idk.com"})
+    setDepartmentDetails({id:"1",name:"Dummy",email:"Something@idk.com"})
   }
 
   return <div className='card'>
     <div>
-      <h2 style={{textAlign:'center'}}>Fetch Member by Id </h2>
+      <h2 style={{textAlign:'center'}}>Fetch Department by Id </h2>
       <div>
-        <label htmlFor="memberId">Member ID:</label>
-        <input className='text' type="text" id="memberId" value={memberId} onChange={handleInputChange} onKeyDown={handleKeyPress}/>
+        <label htmlFor="departmentId">Department ID:</label>
+        <input className='text' type="text" id="departmentId" value={departmentId} onChange={handleInputChange} onKeyDown={handleKeyPress}/>
       </div>
       <button className='button-17' onClick={fetchDataFromServer}>Fetch Data</button>
       <button className='button-17' onClick={dummyData}>ShowDummyData</button>
-      {memberDetails!==null && (
+      {departmentDetails!==null && (
         <div>
-          <h3>Member Details</h3>
-          <p>Id: {memberDetails.id}</p>
-          <p>Name: {memberDetails.name}</p>
-          <p>Email: {memberDetails.email}</p>
+          <h3>Department Details</h3>
+          <p>Id: {departmentDetails.id}</p>
+          <p>Name: {departmentDetails.name}</p>
+          <p>Email: {departmentDetails.email}</p>
         </div>
       )}
-      {memberDetails===null&&(
-        <div style={{height:'155px'}}><p style={{color:"red"}}>{memberError}</p></div>
+      {departmentDetails===null&&(
+        <div style={{height:'155px'}}><p style={{color:"red"}}>{departmentError}</p></div>
       )}
     </div>
   </div>
 }
 
-function InsertMemberData(){
+function InsertDepartmentData(){
   // Define state variables for each input field
-  const [memberId, setMemberId] = useState(null);
+  const [departmentId, setDepartmentId] = useState(null);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [insertStatus, setInsertStatus] = useState(null);
   const [insertError, setInsertError] = useState(null);
   
-  // Function to handle input changes for Member ID
-  const handleMemberIdChange = (event) => {
-    setMemberId(event.target.value);
+  // Function to handle input changes for department ID
+  const handleDepartmentIdChange = (event) => {
+    setDepartmentId(event.target.value);
   };
   
   // Function to handle input changes for Name
@@ -130,25 +130,25 @@ function InsertMemberData(){
 
   // Function to clear all input fields
   const clearFields = () => {
-    setMemberId('');
+    setDepartmentId('');
     setName('');
     setEmail('');
   };
 
   const addToDatabase = () => {
-    if (!memberId || !email || !name) {
+    if (!departmentId || !email || !name) {
       setInsertError("Fill all the fields");
       return; 
     }
     
     const data = {
-      id: memberId,
+      id: departmentId,
       email: email,
       name:name
     };
 
     // Send data to the backend server
-    fetch('http://localhost:8080/members', {
+    fetch('http://localhost:8080/departments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -174,10 +174,10 @@ function InsertMemberData(){
 
   return <div className='card'>
     <div>
-      <h2 style={{textAlign:'center'}}>Insert member into Database</h2>
+      <h2 style={{textAlign:'center'}}>Insert Department into Database</h2>
       <div className='form'>
-        <label htmlFor="memberId">Member ID:</label>
-        <input className='text' type="text" id="memberId" value={memberId} onChange={handleMemberIdChange}/>
+        <label htmlFor="departmentId">Department ID:</label>
+        <input className='text' type="text" id="departmentId" value={departmentId} onChange={handleDepartmentIdChange}/>
       </div>
       <div className='form'>
         <label htmlFor="name">Name</label>
