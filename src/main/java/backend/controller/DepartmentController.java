@@ -32,5 +32,10 @@ public class DepartmentController {
     public List<Department> getDepartments() {
         return departmentService.getDepartments();
     }
+
+    @DeleteMapping("/departments/{departmentId}")
+    public boolean deleteDepartment(@PathVariable String departmentId){
+        return departmentService.deleteDepartment(departmentId);
+    }
 }
 

@@ -2,27 +2,58 @@ import React, { useEffect, useState } from 'react';
 import "./main.css"
  
 export default function MainPage(){
+  const [reloadDepartments, setreloadDepartments] = useState(false);
+
+  const handleReload = () => {
+    setreloadDepartments(!reloadDepartments);
+  };
+
   return <div className='container'>
     <FetchDepartmentById/>
-    <InsertDepartmentData/>
-    <FetchDepartments/>
+    <InsertDepartmentData onReload ={handleReload}/>
+    <FetchDepartments onReload ={handleReload} reloadDepartments={reloadDepartments}/>
   </div>
 };
 
 
-function FetchDepartments(){
+function FetchDepartments({onReload ,reloadDepartments}){
 const [departments,setDepartments]=useState(null);
+const [selectedId,setSelectedId]=useState(null);
+const [deleteStatus,setDeleteStatus]=useState('');
 
 useEffect(()=>{
   fetch("http://localhost:8080/departments")
     .then(response=>response.json())
-    .then(setDepartments)
-},[])
+    .then(data=>{
+      setDepartments(null)
+      setTimeout(()=>{
+        setDepartments(data)
+      },250)
+    })
+},[reloadDepartments])
+
+const setId= (id) =>{
+  setSelectedId(id);
+  console.log(id);
+};
+
+const deleteDepartment=()=>{
+  fetch(`http://localhost:8080/departments/${selectedId}`,{
+    method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+  }).then(response=>{
+    if(response.json()===true)
+      setDeleteStatus("Success")
+      onReload()
+  })
+};
 
 return <div className='card'>
   <div>
     <h2>All Departments</h2>
-    {departments!==null&&(
+    {departments!==null&&(<>
       <table className='DepartmentTable'>
         <thead>
           <tr>
@@ -33,7 +64,7 @@ return <div className='card'>
         </thead>
         <tbody>
           {departments.map((element)=>(
-            <tr>
+            <tr key={element.id} onClick={()=>setId(element.id)}>
               <td>{element.id}</td>
               <td>{element.name}</td>
               <td>{element.email}</td>
@@ -41,6 +72,9 @@ return <div className='card'>
           ))}
         </tbody>
       </table>
+      <span>{deleteStatus}</span>
+      <button  className='button-17' style={{float:'right'}} disabled={!selectedId} onClick={deleteDepartment}>Delete Department</button>
+      </>
     )}
     {departments===null &&(
       <div className='placeholder'><div className='loader'></div></div>
@@ -105,11 +139,10 @@ function FetchDepartmentById(){
   </div>
 }
 
-function InsertDepartmentData(){
-  // Define state variables for each input field
-  const [departmentId, setDepartmentId] = useState(null);
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
+function InsertDepartmentData({onReload}){
+  const [departmentId, setDepartmentId] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [insertStatus, setInsertStatus] = useState(null);
   const [insertError, setInsertError] = useState(null);
   
@@ -165,10 +198,11 @@ function InsertDepartmentData(){
       setInsertStatus("Success")
       setInsertError(null)
       clearFields()
+      onReload()
     })
     .catch(error => {
       setInsertStatus(null)
-      setInsertError(error);
+      setInsertError(error.toString());
     });
   };
 
