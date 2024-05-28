@@ -23,6 +23,7 @@ spec:
     spec:
       containers:
         - image: doc-react:v405
+          imagePullPolicy: Never
           name: react
           ports:
             - containerPort: 3000
