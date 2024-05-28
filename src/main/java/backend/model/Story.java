@@ -1,4 +1,4 @@
-package via.doc1.devopsdemo.model;
+package backend.model;
 
 import java.util.Objects;
 
@@ -11,28 +11,28 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
-@Entity(name="Task")
-@Table(name="task")
+@Entity(name="Story")
+@Table(name="story")
 
-public class Task {
+public class Story {
     @Id
     private String id;
     private String name;
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "team_member_id", insertable = false,updatable = false)
+    @JoinColumn(name = "Department_id", insertable = false,updatable = false)
     @JsonIgnore
-    private TeamMember teamMember;
+    private Department department;
 
-    public Task() {
+    public Story() {
     }
 
-    public Task(TeamMember teamMember){
-        this.teamMember=teamMember;
+    public Story(Department department){
+        this.department=department;
     }
 
-    public Task(String id, String name, String description) {
+    public Story(String id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -64,7 +64,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Story{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -75,7 +75,7 @@ public class Task {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
+        Story task = (Story) o;
         return id.equals(task.id);
     }
 

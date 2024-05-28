@@ -1,5 +1,4 @@
-import './App.css';
-import FetchDataComponent from './fetchData';
+import MainPage from './MainPage';
 
 /*
 function App() {
@@ -27,7 +26,7 @@ function App() {
 const App = () => {
   return (
     <div>
-      <FetchDataComponent />
+      <MainPage />
     </div>
   );
 };

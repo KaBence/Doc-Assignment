@@ -1,4 +1,4 @@
-package via.doc1.devopsdemo.model;
+package backend.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,27 +7,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
-@Entity(name = "TeamMember")
-@Table(name = "team_member")
-public class TeamMember {
+@Entity(name = "Department")
+@Table(name = "department")
+public class Department {
     @Id
     private String id;
     private String name;
     private String email;
     @OneToMany
-    @JoinColumn(name = "team_member_id")
+    @JoinColumn(name = "Department_id")
 
     @JsonIgnore
-    private List<Task> tasks=new ArrayList<>();
+    private List<Story> stories=new ArrayList<>();
 
-    public TeamMember(){
+    public Department(){
     }
 
-    public TeamMember(String id, String name, String email, List<Task> tasks) {
+    public Department(String id, String name, String email, List<Story> stories) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.tasks = tasks;
+        this.stories = stories;
     }
 
     public String getId() {
@@ -54,12 +54,12 @@ public class TeamMember {
         this.email = email;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public List<Story> getStories() {
+        return stories;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setStories(List<Story> stories) {
+        this.stories = stories;
     }
 
     @Override
@@ -69,6 +69,6 @@ public class TeamMember {
                 "id=%s, " +
                 "name=%s, " +
                 "email=%s" +
-                "tasks=%s]", id, name, email, tasks);
+                "Stories=%s]", id, name, email, stories);
     }
 }
