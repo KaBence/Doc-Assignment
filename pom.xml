@@ -9,12 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>via.doc1</groupId>
-    <artifactId>devops-demo</artifactId>
+    <artifactId>java-backend</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>devops-demo</name>
-    <description>Template Project for CI/CD Pipelines</description>
+    <name>java-backend</name>
+    <description>Java backend</description>
     <properties>
         <java.version>21</java.version>
     </properties>

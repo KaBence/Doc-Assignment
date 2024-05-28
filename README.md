@@ -15,8 +15,8 @@
 <blockquote>
   <details>
     <summary>Examples</summary>
-    <p>  docker build -t devops-demo:v404 .</p>
-    <p>  docker build -f ./Dockerfile -t devops-demo:v404 .</p>
+    <p>  docker build -t java-backend:v404 .</p>
+    <p>  docker build -f ./Dockerfile -t java-backend:v404 .</p>
     <p>  docker build -f ./webapp/Dockerfile -t doc-react:v404 ./webapp</p>
   </details>
 </blockquote>
@@ -59,7 +59,7 @@ In order for minikube to successfully find the images that needs to be run insid
   <details>
     <summary>Examples</summary>
     <p>  docker image save -o doc-assignment.tar doc-react:v405</p>
-    <p>  docker image save -o doc-assignment.tar devops-demo:v405 doc-react:v405</p>
+    <p>  docker image save -o doc-assignment.tar java-backend:v405 doc-react:v405</p>
   </details>
 </blockquote>
 

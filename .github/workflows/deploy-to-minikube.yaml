@@ -22,20 +22,20 @@ jobs:
         run: |
           export SHELL=/bin/bash
           eval $(minikube -p minikube docker-env)
-          docker build -f ./Dockerfile -t devops-demo .
+          docker build -f ./Dockerfile -t java-backend .
           docker build -f ./webapp/Dockerfile -t doc-react ./webapp
           echo -n "Verifying images: "
           docker images
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f backend-deploy.yaml,web-deploy.yaml
-          kubectl wait --for=condition=Ready pod -l app=devops-demo
+          kubectl apply -f backend-deployment.yaml,web-deployment.yaml
+          kubectl wait --for=condition=Ready pod -l app=java-backend
           kubectl wait --for=condition=Ready pod -l app=doc-react
           kubectl get all
       - name: Test service URLs
         run: |
-          echo "SERVICE_URL=$(minikube service devops-demo --url)"
-          kubectl port-forward service/devops-demo 8080:8080 &> /dev/null &
+          echo "SERVICE_URL=$(minikube service java-backend --url)"
+          kubectl port-forward service/java-backend 8080:8080 &> /dev/null &
           sleep 5
           kubectl port-forward service/doc-react 3000:3000 &> /dev/null &
           sleep 5
