@@ -30,15 +30,15 @@ jobs:
       - name: Deploy to Minikube
         run: |
           kubectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
-          kubectl wait --for=condition=Ready pod -l app=java-backend
-          kubectl wait --for=condition=Ready pod -l app=doc-react
+          kubectl wait --for=condition=Ready pod -l app=backend
+          kubectl wait --for=condition=Ready pod -l app=web
           kubectl get all
       - name: Test service URLs
         run: |
-          echo "SERVICE_URL=$(minikube service java-backend --url)"
-          kubectl port-forward service/java-backend 8080:8080 &> /dev/null &
+          echo "SERVICE_URL=$(minikube service backend --url)"
+          kubectl port-forward service/backend 8080:8080 &> /dev/null &
           sleep 5
-          kubectl port-forward service/doc-react 3000:3000 &> /dev/null &
+          kubectl port-forward service/web 3000:3000 &> /dev/null &
           sleep 5
       - run: |
           curl -i http://localhost:3000/
