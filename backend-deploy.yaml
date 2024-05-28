@@ -16,6 +16,15 @@ spec:
         app: java-backend
     spec:
       containers:
+        - env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: postgres
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://db:5432/doc-db
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update
         - name: java-backend
           image: java-backend:latest # Image that will be used inside the container in the cluster
           imagePullPolicy: Never

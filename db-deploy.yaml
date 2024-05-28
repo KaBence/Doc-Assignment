@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doc-db
+  labels:
+    app: doc-db
+spec:
+  selector:
+    matchLabels:
+      app: doc-db
+  replicas: 1
+  template:
+    metadata:
+      name: doc-db
+      labels:
+        app: doc-db
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: doc-db
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+        - name: doc-db
+          image: postgres:14.1-alpine # Image that will be used inside the container in the cluster
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5432 # The port that the container is running on in the cluster
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doc-db
+  labels:
+    app: doc-db
+spec:
+  type: NodePort
+  selector:
+    app: doc-db
+  ports:
+    - name: TCP
+      port: 5432 # The port that the service is running on in the cluster
+      targetPort: 5432
