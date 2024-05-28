@@ -1,5 +1,6 @@
 name: CD - Deploy to Minikube using Github Actions
 on:
+  workflow_dispatch:
   #Trigger the workflow on push from the master/Github-Actions branch or on pull request
   push:
     branches: [ Github-Actions ]
@@ -28,7 +29,7 @@ jobs:
           docker images
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f backend-deploy.yaml,web-deploy.yaml,db-deploy.yaml
+          kubectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
           kubectl wait --for=condition=Ready pod -l app=java-backend
           kubectl wait --for=condition=Ready pod -l app=doc-react
           kubectl get all
