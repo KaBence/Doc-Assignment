@@ -1,60 +1,6 @@
-#name: CD - Deploy to Minikube using Github Actions
-#on:
-#  workflow_dispatch:
-#  #Trigger the workflow on push from the master/Github-Actions branch or on pull request
-#  push:
-#    branches: [ Github-Actions ]
-#  pull_request:
-#    branches: [ Github-Actions ]
-#jobs:
-#  # Build job
-#  job1:
-#    name: Build and Deploy to Minikube
-#    # Run on Ubuntu using the latest version
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - name: Start Minikube
-#        id: minikube
-#        uses: medyagh/setup-minikube@latest
-#      - name: Try the cluster !
-#        run: kubectl get pods -A
-#      - name: Build Image
-#        run: |
-#          export SHELL=/bin/bash
-#          eval $(minikube -p minikube docker-env)
-#          docker build -f ./Dockerfile -t java-backend .
-#          docker build -f ./webapp/Dockerfile -t doc-react ./webapp
-#          echo -n "Verifying images: "
-#          docker images
-#      - name: Deploy to Minikube
-#        run: |
-#          kubectl apply -f backend-deployment.yaml,backend-service.yaml,db-persistentvolumeclaim.yaml,db-deployment.yaml,db-service.yaml,web-deployment.yaml,web-service.yaml
-#          kubectl wait --for=condition=Ready pod -l app=backend
-#          kubectl wait --for=condition=Ready pod -l app=web
-#          kubectl get all
-#      - name: Test service URLs
-#        run: |
-#          echo "SERVICE_URL=$(minikube service backend --url)"
-#          kubectl port-forward service/backend 8080:8080 &> /dev/null &
-#          sleep 5
-#          kubectl port-forward service/web 3000:3000 &> /dev/null &
-#          sleep 5
-#      - run: |
-#          curl -i http://localhost:3000/
-#      - run: |
-#          curl -i http://localhost:8080/
-#      - name: Cleanup
-#        run: |
-#          eval $(minikube docker-env -u)
-#          minikube delete
-
-
-
 name: CD - Deploy to Minikube using Github Actions
 
 on:
-  workflow_dispatch:
   push:
     branches: [Github-Actions]
   pull_request:
@@ -112,7 +58,7 @@ jobs:
       - name: Check all resources
         run: kubectl get all
 
-      - name: Test service URLs
+      - name: Port forwarding
         run: |
           echo "Forwarding ports..."
           kubectl port-forward service/backend 8080:8080 &> /dev/null &
