@@ -1,12 +1,12 @@
 version: "3.8"
 services:
-  #web:
-  #  image: "doc-react:v405"
-  #  build: 
-  #    context: ./webapp
-  #  container_name: React
-  #  ports:
-  #    - "3000:3000"
+  web:
+    image: "doc-react:v405"
+    build: 
+      context: ./webapp
+    container_name: React
+    ports:
+      - "3000:3000"
 
   db:
     image: "postgres:14.1-alpine"

@@ -32,7 +32,6 @@ spec:
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: update
           image: java-backend:v405
-          imagePullPolicy: Never
           name: java-backend
           ports:
             - containerPort: 8080
