@@ -25,4 +25,9 @@ public class DepartmentService {
         return departmentRepository.findById(department).get();
     }
 
+    public boolean deleteDepartment(String department){
+        departmentRepository.deleteById(department);
+        return true;
+    }
+
 }
