@@ -1,6 +1,7 @@
 name: CD - Deploy to Minikube using Github Actions
 
 on:
+  workflow_dispatch:
   push:
     branches: [Github-Actions]
   pull_request:
