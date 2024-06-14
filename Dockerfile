@@ -17,6 +17,6 @@ EXPOSE 8080
 # Set a docker volume if you want
 VOLUME /backend_volume
 # Add the jar file
-COPY --from=build /app/target/*.jar devops-demo-1.0.jar
+COPY --from=build /app/target/*.jar java-backend-1.0.jar
 # Start the application
-ENTRYPOINT ["java", "-jar", "/devops-demo-1.0.jar"]
+ENTRYPOINT ["java", "-jar", "/java-backend-1.0.jar"]
