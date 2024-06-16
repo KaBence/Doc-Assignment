@@ -21,7 +21,7 @@ public class Story {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "Department_id", insertable = false,updatable = false)
+    @JoinColumn(name = "Department_id")
     @JsonIgnore
     private Department department;
 
@@ -82,5 +82,13 @@ public class Story {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

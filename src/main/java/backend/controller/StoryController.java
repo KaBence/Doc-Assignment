@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.DTO.CreateStoryDTO;
 import backend.model.Story;
 import backend.service.StoryService;
 
@@ -33,7 +34,7 @@ public class StoryController {
     }
     
     @PostMapping("/stories")
-    public Story saveStory(@RequestBody Story story){
-        return storyService.saveStory(story);
+    public Story saveStory(@RequestBody CreateStoryDTO dto){
+        return storyService.saveStory(dto);
     }
 }
