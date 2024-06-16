@@ -39,7 +39,7 @@ export function FetchDepartments({ onReload, reloadDepartments }) {
     <div>
       <h2>All Departments</h2>
       {departments !== null && (<>
-        <table className='DepartmentTable'>
+        <table className='table'>
           <thead>
             <tr>
               <th>Department Id</th>

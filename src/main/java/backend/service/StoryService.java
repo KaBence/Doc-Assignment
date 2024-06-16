@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.DTO.CreateStoryDTO;
+import backend.DTO.UpdateStoryDTO;
 import backend.model.Department;
 import backend.model.Story;
 import backend.repository.DepartmentRepository;
@@ -31,5 +32,23 @@ public class StoryService {
 
     public Story getStory(String story){
         return storyRepository.findById(story).get();
+    }
+
+    public boolean deleteStory(String storyId){
+        storyRepository.deleteById(storyId);
+        return true;
+    }
+
+    public void updateStory(String storyId,UpdateStoryDTO dto){
+        Story story =storyRepository.findById(storyId).orElseThrow(()->new RuntimeException("Story not found"));
+        if (dto.getName()!=null) 
+            story.setName(dto.getName());
+        if (dto.getDescription()!=null) 
+            story.setDescription(dto.getDescription());
+        if (dto.getDepartmentId()!=null) {
+            Department department = departmentRepository.findById(dto.getDepartmentId()).orElseThrow(() -> new RuntimeException("Department not found"));
+            story.setDepartment(department);
+        }
+        storyRepository.save(story);
     }
 }
