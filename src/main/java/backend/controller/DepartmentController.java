@@ -9,7 +9,8 @@ import backend.service.DepartmentService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = {"http://localhost:3000","http://web:3000"})
+@CrossOrigin(origins = "*")
 public class DepartmentController {
     private DepartmentService departmentService;
 

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import "./main.css"
 
+const apiUrl = process.env.REACT_APP_API_URL
+
+
 export function FetchDepartments({ onReload, reloadDepartments }) {
   const [departments, setDepartments] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [deleteStatus, setDeleteStatus] = useState('');
 
   useEffect(() => {
-    fetch("http://localhost:8080/departments")
+    fetch(`${apiUrl}/departments`)
       .then(response => response.json())
       .then(data => {
         setDepartments(null)
@@ -23,7 +26,7 @@ export function FetchDepartments({ onReload, reloadDepartments }) {
   };
 
   const deleteDepartment = () => {
-    fetch(`http://localhost:8080/departments/${selectedId}`, {
+    fetch(`${apiUrl}/departments/${selectedId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -91,7 +94,7 @@ export function FetchDepartmentById() {
       return;
     }
     setDepartmentError(null);
-    fetch(`http://localhost:8080/departments/${departmentId}`/*,{ mode: 'no-cors' }*/)
+    fetch(`${apiUrl}/departments/${departmentId}`/*,{ mode: 'no-cors' }*/)
       .then(response => response.json())
       .then(setDepartmentDetails);
   };
@@ -162,7 +165,7 @@ export function InsertDepartmentData({ onReload }) {
     };
 
     // Send data to the backend server
-    fetch('http://localhost:8080/departments', {
+    fetch(`${apiUrl}/departments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

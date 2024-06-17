@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import "./main.css"
 
+const apiUrl = process.env.REACT_APP_API_URL
+
 export function AddStories() {
     const [storyId, setStoryId] = useState('');
     const [name, setName] = useState('');
@@ -11,7 +13,8 @@ export function AddStories() {
     const [insertError, setInsertError] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:8080/departments")
+        console.log(apiUrl)
+        fetch(`${apiUrl}/departments`)
             .then(response => response.json())
             .then(data => {
                 setDepartments(data)
@@ -47,7 +50,7 @@ export function AddStories() {
             departmentId: selectedDepartment
         }
 
-        fetch('http://localhost:8080/stories', {
+        fetch(`${apiUrl}/stories`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -112,21 +115,21 @@ export function FetchStories({ onReload, reloadStories }) {
     const [selectedId, setSelectedId] = useState(null);
     const [deleteStatus, setDeleteStatus] = useState('');
 
-    useEffect(()=>{
-        fetch("http://localhost:8080/stories")
-            .then(response =>response.json())
+    useEffect(() => {
+        fetch(`${apiUrl}/stories`)
+            .then(response => response.json())
             .then(data => {
                 setStories(null)
-                setTimeout(()=>{
+                setTimeout(() => {
                     setStories(data)
-                },250)
+                }, 250)
             })
-    },[reloadStories])
+    }, [reloadStories])
 
     return <div className="card">
         <div>
             <h2>All Stories</h2>
-            {stories !==null &&(<>
+            {stories !== null && (<>
                 <table className="table">
                     <thead>
                         <tr>
@@ -137,7 +140,7 @@ export function FetchStories({ onReload, reloadStories }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {stories.map((element)=>(
+                        {stories.map((element) => (
                             <tr key={element.id}>
                                 <td>{element.id}</td>
                                 <td>{element.name}</td>
@@ -148,7 +151,7 @@ export function FetchStories({ onReload, reloadStories }) {
                     </tbody>
                 </table>
             </>)}
-            {stories ===null &&(
+            {stories === null && (
                 <div className="placeholder"><div className="loader"></div></div>
             )}
         </div>

@@ -18,7 +18,9 @@ import backend.model.Story;
 import backend.service.StoryService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = {"http://localhost:3000","http://web:3000"})
+@CrossOrigin(origins = "*")
+
 public class StoryController {
     private StoryService storyService;
 
