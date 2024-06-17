@@ -3,7 +3,7 @@ import "./main.css"
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-export function AddStories() {
+export function AddStories({onReload}) {
     const [storyId, setStoryId] = useState('');
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
@@ -66,6 +66,7 @@ export function AddStories() {
                 setInsertStatus("Success")
                 setInsertError(null)
                 clearFields()
+                onReload()
             })
             .catch(error => {
                 setInsertStatus(null)
@@ -126,6 +127,24 @@ export function FetchStories({ onReload, reloadStories }) {
             })
     }, [reloadStories])
 
+    const setStory = (item) => {
+        setSelectedId(item)
+    }
+
+    const deleteStory = () => {
+        fetch(`${apiUrl}/stories/${selectedId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(response => {
+            if (response.json() === true)
+                setDeleteStatus("Success")
+            onReload()
+        })
+    }
+
+
     return <div className="card">
         <div>
             <h2>All Stories</h2>
@@ -141,19 +160,103 @@ export function FetchStories({ onReload, reloadStories }) {
                     </thead>
                     <tbody>
                         {stories.map((element) => (
-                            <tr key={element.id}>
+                            <tr key={element.id} onClick={() => setStory(element.id)}>
                                 <td>{element.id}</td>
                                 <td>{element.name}</td>
                                 <td>{element.description}</td>
-                                <td>{element.department}</td>
+                                <td>{element.department?.name}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                <span>{deleteStatus}</span>
+                <button className='button-17' style={{ float: 'right' }} disabled={!selectedId} onClick={deleteStory}>Delete Story</button>
+
             </>)}
             {stories === null && (
                 <div className="placeholder"><div className="loader"></div></div>
             )}
+        </div>
+    </div>
+}
+
+export function UpdateStory({onReload}) {
+    const [storyId, setStoryId] = useState('');
+    const [name, setName] = useState('');
+    const [desc, setDesc] = useState('');
+    const [departments, setDepartments] = useState([]);
+    const [selectedDepartment, setSelectedDepartment] = useState('');
+    const [insertStatus, setInsertStatus] = useState(null);
+    const [insertError, setInsertError] = useState(null);
+
+    useEffect(() => {
+        console.log(apiUrl)
+        fetch(`${apiUrl}/departments`)
+            .then(response => response.json())
+            .then(data => {
+                setDepartments(data)
+            })
+    }, [])
+
+    const handleStoryIdChange = (event) => {
+        setStoryId(event.target.value);
+    }
+
+    const handleNameChange = (event) => {
+        setName(event.target.value);
+    }
+
+    const handleDescChange = (event) => {
+        setDesc(event.target.value);
+    }
+
+    const handleSelectedDepartment = (event) => {
+        setSelectedDepartment(event.target.value);
+    }
+
+    const update=()=>{
+        const data = {
+            name : name,
+            description: desc,
+            departmentId: selectedDepartment
+        }
+
+        fetch(`${apiUrl}/stories/${storyId}`,{
+            method:'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(()=>{
+            onReload()
+        })
+    }
+
+    return <div className="card">
+        <div>
+            <h2 style={{ textAlign: 'center' }}>Update Story</h2>
+            <div className='form'>
+                <label htmlFor="storyId">Story ID:</label>
+                <input className='text' type="text" id="storyId" value={storyId} onChange={handleStoryIdChange} />
+            </div>
+            <div className='form'>
+                <label htmlFor="storyName">Story Name:</label>
+                <input className='text' type="text" id="storyName" value={name} onChange={handleNameChange} />
+            </div>
+            <div className='form'>
+                <label htmlFor="storyName">Description:</label>
+                <input className='text' type="text" id="storyDesc" value={desc} onChange={handleDescChange} />
+            </div>
+            <div className='form'>
+                <label htmlFor="storyName">Departments:</label>
+                <select id="department" className="departmentSelect" value={selectedDepartment} onChange={handleSelectedDepartment}>
+                    {departments?.map((item, index) => (
+                        <option key={index} value={item.id}>{item.name}</option>
+                    ))}
+                </select>
+            </div>
+            <button className='button-17' style={{ float: 'right' }} disabled={!storyId} onClick={update}>Update Story</button>
+
         </div>
     </div>
 }

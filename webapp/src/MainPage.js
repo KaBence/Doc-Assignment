@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FetchDepartmentById, InsertDepartmentData, FetchDepartments } from './Departments.js';
-import { AddStories, FetchStories } from './Stories.js';
+import { AddStories, FetchStories, UpdateStory } from './Stories.js';
 
 export default function MainPage() {
   const [reloadDepartments, setreloadDepartments] = useState(false);
@@ -20,5 +20,6 @@ export default function MainPage() {
     <FetchDepartments onReload={handleReloadDepartments} reloadDepartments={reloadDepartments} />
     <AddStories onReload={handleReloadStories} />
     <FetchStories onReload={handleReloadStories} reloadStories={reloadStories} />
+    <UpdateStory onReload={handleReloadStories}/>
   </div>
 };

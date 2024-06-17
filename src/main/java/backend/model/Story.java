@@ -22,7 +22,6 @@ public class Story {
 
     @ManyToOne
     @JoinColumn(name = "Department_id")
-    @JsonIgnore
     private Department department;
 
     public Story() {
