@@ -23,6 +23,16 @@ public class Department {
     public Department(){
     }
 
+    
+
+    public Department(String id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
+
+
     public Department(String id, String name, String email, List<Story> stories) {
         this.id = id;
         this.name = name;

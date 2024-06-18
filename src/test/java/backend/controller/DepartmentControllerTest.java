@@ -1,52 +1,90 @@
 package backend.controller;
 
-
+import backend.model.Department;
+import backend.service.DepartmentService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.skyscreamer.jsonassert.JSONAssert;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import backend.model.Story;
-import backend.service.DepartmentService;
+import java.util.Arrays;
+import java.util.List;
 
-/**
- * @author jook
- * @version 1.0
- */
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(value = DepartmentController.class)
+@WebMvcTest(DepartmentController.class)
 public class DepartmentControllerTest {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private DepartmentService teamService;
+    private DepartmentService departmentService;
 
-    Story mockTask = new Story("Task1", "IoT Pipeline", "Create CD pipeline for IoT component");
-    String jsonTask = "{\"name\":\"IoT Pipeline\",\"description\":\"Create CD pipeline for IoT service\"}";
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
-    public void getTaskDetailsTest() throws Exception {
-        
+    public void testGetDepartment() throws Exception {
+        Department department = new Department("1", "HR", "hr@company.com");
+        when(departmentService.getDepartment("1")).thenReturn(department);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/members/Member1/tasks/Task1")
-                .accept(MediaType.APPLICATION_JSON);
+        mockMvc.perform(get("/departments/1"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.id").value("1"))
+               .andExpect(jsonPath("$.name").value("HR"))
+               .andExpect(jsonPath("$.email").value("hr@company.com"));
+    }
 
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+    @Test
+    public void testSaveDepartment() throws Exception {
+        Department department = new Department("2", "IT", "it@company.com");
+        when(departmentService.saveDepartment(Mockito.any(Department.class))).thenReturn(department);
 
-        System.out.println(result.getResponse());
-        //String expected = "{\"id\":\"Task1\",\"name\":\"IoT Pipeline\",\"description\":\"Create CD pipeline for IoT component\"}";
+        mockMvc.perform(post("/departments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(department)))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.id").value("2"))
+               .andExpect(jsonPath("$.name").value("IT"))
+               .andExpect(jsonPath("$.email").value("it@company.com"));
+    }
 
-        JSONAssert.assertEquals("hello", "hello", false);
+    @Test
+    public void testGetDepartments() throws Exception {
+        Department dept1 = new Department("1", "HR", "hr@company.com");
+        Department dept2 = new Department("2", "IT", "it@company.com");
+        List<Department> departments = Arrays.asList(dept1, dept2);
+        when(departmentService.getDepartments()).thenReturn(departments);
+
+        mockMvc.perform(get("/departments"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$[0].id").value("1"))
+               .andExpect(jsonPath("$[0].name").value("HR"))
+               .andExpect(jsonPath("$[0].email").value("hr@company.com"))
+               .andExpect(jsonPath("$[1].id").value("2"))
+               .andExpect(jsonPath("$[1].name").value("IT"))
+               .andExpect(jsonPath("$[1].email").value("it@company.com"));
+    }
+
+    @Test
+    public void testDeleteDepartment() throws Exception {
+        when(departmentService.deleteDepartment("1")).thenReturn(true);
+
+        mockMvc.perform(delete("/departments/1"))
+               .andExpect(status().isOk())
+               .andExpect(content().string("true"));
     }
 }
