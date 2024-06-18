@@ -1,5 +1,3 @@
-
-
 body{
     background-color: #45525f;
     font-family: Arial, Helvetica, sans-serif;
@@ -29,9 +27,9 @@ label{
 
 .container{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     gap: 40px;
-    padding: 50px 250px;
+    padding: 50px 150px;
 }
 
 .placeholder{
@@ -41,32 +39,40 @@ label{
   align-items: center;
 }
 
-.DepartmentTable{
+.table{
   height: 25vh;
   width: 450px;
 }
 
 
-.DepartmentTable td, .container th {
+.table td, .container th {
   padding-bottom: 2%;
   padding-top: 2%;
   padding-left:2%;  
 }
 
 /* Background-color of the odd rows */
-.DepartmentTable tbody tr:nth-child(odd) {
+.table tbody tr:nth-child(odd) {
   background-color: #00000070;
 }
 
 /* Background-color of the even rows */
-.DepartmentTable tbody tr:nth-child(even) {
+.table tbody tr:nth-child(even) {
   background-color: #ffffff;
 }
 
-.DepartmentTable tbody tr:hover{
+.table tbody tr:hover{
   animation-name: tableHover; 
   animation-duration: 0.3s; 
   animation-fill-mode: forwards;
+}
+
+.departmentSelect{
+  margin-left: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  height: 30px;
+  width: 200px;
 }
 
 

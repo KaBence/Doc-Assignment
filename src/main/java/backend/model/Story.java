@@ -2,8 +2,6 @@ package backend.model;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -21,8 +19,7 @@ public class Story {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "Department_id", insertable = false,updatable = false)
-    @JsonIgnore
+    @JoinColumn(name = "Department_id")
     private Department department;
 
     public Story() {
@@ -82,5 +79,13 @@ public class Story {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

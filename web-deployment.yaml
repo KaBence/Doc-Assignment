@@ -29,4 +29,7 @@ spec:
             - containerPort: 3000
               hostPort: 3000
               protocol: TCP
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://backend:8080"
       restartPolicy: Always
